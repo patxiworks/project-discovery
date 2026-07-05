@@ -1,11 +1,15 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "API is running"}
+class Project(BaseModel):
+    title: str
+    description: str
+    industry: str
 
-@app.get("/health")
-def health():
-    return {"status": "OK"}
+@app.post("/projects")
+def create_project(project: Project):
+    return {
+        "received": project
+    }
